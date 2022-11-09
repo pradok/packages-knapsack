@@ -1,10 +1,5 @@
 import { KnapsackDynamic } from '../KnapsackDynamic';
-import {
-  lineItems1,
-  lineItems2,
-  lineItems3,
-  lineItems4
-} from '../mocks';
+import { lineItems1, lineItems2, lineItems3, lineItems4 } from '../mocks';
 describe('KnapsackDynamic', () => {
   let knapsack: KnapsackDynamic;
   beforeEach(() => {
