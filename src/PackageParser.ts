@@ -1,13 +1,19 @@
 import fs from 'fs-extra';
+import { Parser } from './interfaces';
 import { Item } from './Item';
+import { LineItem } from './types';
 // TODO Validations for each line
-export class PackageParser {
-  public async parse(fileName: string) {
-    const parsed = await fs.readFile(`./files/${fileName}`, {
-      encoding: 'utf-8',
-    });
-    const lines = parsed.replace(/\r/g, '').split('\n');
-    return this.parseLines(lines);
+export class PackageParser implements Parser {
+  public async parse(fileName: string): Promise<LineItem[]> {
+    try {
+      const parsed = await fs.readFile(`./files/${fileName}`, {
+        encoding: 'utf-8',
+      });
+      const lines = parsed.replace(/\r/g, '').split('\n');
+      return this.parseLines(lines);
+    } catch (error) {
+      throw new Error('Unable to parse');
+    }
   }
 
   private parseLines(lines: string[]) {

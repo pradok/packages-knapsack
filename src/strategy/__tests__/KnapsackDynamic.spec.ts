@@ -14,7 +14,7 @@ describe('KnapsackDynamic', () => {
   ])(
     'knapsack.getItems returns valued packaged items index of $expected with maximum weight of $maxWeight',
     ({ items, maxWeight, expected }) => {
-      const itemsPacked = knapsack.getItems(items, maxWeight);
+      const itemsPacked = knapsack.execute(items, maxWeight);
       expect(itemsPacked.map((item) => item.index)).toEqual(expected);
     },
   );

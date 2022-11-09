@@ -1,11 +1,12 @@
+import { Strategy } from '../interfaces';
 import { Item } from '../Item';
 import { Element, Matrix } from '../types';
 
-export class KnapsackDynamic {
+export class KnapsackDynamic implements Strategy {
   private matrix: Matrix = [];
   private items: Item[] = [];
 
-  getItems(items: Item[], capacity: number): Item[] {
+  public execute(items: Item[], capacity: number): Item[] {
     this.items = items;
     for (let itemRow = 0; itemRow < items.length; itemRow++) {
       const row = [];
@@ -23,6 +24,8 @@ export class KnapsackDynamic {
     const lastRow = this.matrix[this.matrix.length - 1];
     const mostValued = lastRow[lastRow.length - 1];
 
+    this.items = [];
+    this.matrix = [];
     return mostValued.itemsCombo;
   }
 
