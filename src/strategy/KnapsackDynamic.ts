@@ -57,7 +57,7 @@ export class KnapsackDynamic {
     const prevRowItemsRemainderValue = itemsPreviousRowRemainder.maxValue;
 
     const newValue = prevRowItemsRemainderValue + item.value;
-    if (newValue >= previousRowItemsValue) {
+    if (newValue > previousRowItemsValue) {
       const itemsCombo = itemsPreviousRowRemainder.itemsCombo.slice();
       itemsCombo.push(item);
       return { maxValue: newValue, itemsCombo };
