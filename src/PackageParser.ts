@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import { Parser } from './interfaces';
 import { Item } from './Item';
 import { LineItem } from './types';
-// TODO Validations for each line
+
 export class PackageParser implements Parser {
   public async parse(fileName: string): Promise<LineItem[]> {
     try {
@@ -29,18 +29,18 @@ export class PackageParser implements Parser {
     const [packageWeight, items] = line.split(' : ');
     return {
       maxWeight: Number(packageWeight),
-      items: this.getItems(items),
+      items: this._getItems(items),
     };
   }
 
-  getItems(items: string): Item[] {
+  _getItems(items: string): Item[] {
     return items.split(' ').map((item) => {
-      const [index, weight, cost] = this.replaceCurrencySymbol(item).split(',');
+      const [index, weight, cost] = this._removeCurrencySymbol(item).split(',');
       return new Item(Number(index), Number(weight), Number(cost));
     });
   }
 
-  replaceCurrencySymbol(rawItem: string) {
+  _removeCurrencySymbol(rawItem: string) {
     return rawItem.replace(/[()€]/g, '');
   }
 }
