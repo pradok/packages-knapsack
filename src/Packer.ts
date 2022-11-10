@@ -9,10 +9,16 @@ export class Packer {
     const mostValuedPackagedItems = lineItems.map(
       ({ items, maxWeight }: LineItem) => {
         const packagedItems = this._strategy.execute(items, maxWeight);
-        console.log({ packagedItems });
         return packagedItems.map((item) => item.index);
       },
     );
-    console.log({ mostValuedPackagedItems });
+    const indexes = mostValuedPackagedItems.map((itemIndexes) => {
+      return itemIndexes.join(',') || '-';
+    });
+
+    let itemIndexesString = '';
+    indexes.map((index) => (itemIndexesString += `${index}\n`));
+
+    return itemIndexesString;
   }
 }

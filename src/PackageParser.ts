@@ -10,22 +10,22 @@ export class PackageParser implements Parser {
         encoding: 'utf-8',
       });
       const lines = parsed.replace(/\r/g, '').split('\n');
-      return this.parseLines(lines);
+      return this._parseLines(lines);
     } catch (error) {
       throw new Error('Unable to parse');
     }
   }
 
-  private parseLines(lines: string[]) {
+  private _parseLines(lines: string[]) {
     try {
-      const items = lines.map((line) => this.parseLine(line));
+      const items = lines.map((line) => this._parseLine(line));
       return items;
     } catch (err) {
       return [];
     }
   }
 
-  private parseLine(line: string) {
+  private _parseLine(line: string) {
     const [packageWeight, items] = line.split(' : ');
     return {
       maxWeight: Number(packageWeight),
