@@ -21,6 +21,13 @@ Run all the test scenarios as per `*.spec.ts` files
 
 Runs the `jest` tests once.
 
+## Validation criteria
+If anyone of the following are not met, package indexes won't be returned and instead will return `-` in string.
+
+1. Max weight that a package can take is ≤ 100
+2. There might be up to 15 items you need to choose from
+3. Max weight and cost of an item is ≤ 100
+
 ## Usage scenario
 (only a guide if this was packaged as npm otherwise import the packer from index.ts if this project was in its own folder called packer)
 
