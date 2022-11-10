@@ -1,6 +1,7 @@
 # Package items the Knapsack way. 
 
 This library has been built using Knapsack Dynamic programming approach.
+The algorithm has been wrapped using Strategy pattern so the library can be extended to other approaches.
 
 ### Key technologies
 - Typescript
