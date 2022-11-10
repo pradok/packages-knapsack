@@ -12,7 +12,9 @@ export class PackageParser implements Parser {
       const lines = parsed.replace(/\r/g, '').split('\n');
       return this._parseLines(lines);
     } catch (error) {
-      throw new Error('Unable to parse');
+      throw new Error(
+        error instanceof Error ? error.message : 'PackageParser Error',
+      );
     }
   }
 

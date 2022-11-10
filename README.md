@@ -1,29 +1,37 @@
 # Package items the Knapsack way. 
 
-#### `npm run start:dev`
+This library has been built using Knapsack Dynamic programming approach.
 
-Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
+### Key technologies
+- Typescript
+- Jest for tests
 
-#### `npm run start`
+### Assumptions
 
-Starts the app in production by first building the project with `npm run build`, and then executing the compiled JavaScript at `build/index.js`.
+- Weights are in kg and converted by the KnapsackDynamic class to lowest unit of grams.
+- Input files need to be in `files` folder of this root project.
 
-#### `npm run build`
+### Todo further improvements (due to time constraints)
 
-Builds the app at `build`, cleaning the folder first.
+- Better error handling including validation errors.
 
+## Run tests
+Run all the test scenarios as per `*.spec.ts` files
 #### `npm run test`
 
 Runs the `jest` tests once.
 
-#### `npm run test:dev`
+## Usage scenario
+(only a guide if this was packaged as npm otherwise import the packer from index.ts if this project was in its own folder called packer)
 
-Run the `jest` tests in watch mode, waiting for file changes.
+```ts
+import {packer} from 'packer'
+// input1.txt need to be in files folder in root folder of this library.
+packer
+  .pack('input1.txt')
+  .then((packages) => console.log(packages))
+  .catch((error) => console.error(error);
+```
 
-#### `npm run prettier-format`
 
-Format your code.
 
-#### `npm run prettier-watch`
-
-Format your code in watch mode, waiting for file changes.

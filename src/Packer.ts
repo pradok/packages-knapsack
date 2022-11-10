@@ -9,22 +9,26 @@ export class Packer {
   ) {}
 
   public async pack(fileName: string) {
-    const lineItems = await this._parser.parse(fileName);
-    const mostValuedPackagedItems = lineItems.map(
-      ({ items, maxWeight }: LineItem) => {
-        const packagedItems = this._utils.validateLine({ items, maxWeight })
-          ? this._strategy.execute(items, maxWeight)
-          : [];
-        return packagedItems.map((item) => item.index);
-      },
-    );
-    const indexes = mostValuedPackagedItems.map((itemIndexes) => {
-      return itemIndexes.join(',') || '-';
-    });
+    try {
+      const lineItems = await this._parser.parse(fileName);
+      const mostValuedPackagedItems = lineItems.map(
+        ({ items, maxWeight }: LineItem) => {
+          const packagedItems = this._utils.validateLine({ items, maxWeight })
+            ? this._strategy.execute(items, maxWeight)
+            : [];
+          return packagedItems.map((item) => item.index);
+        },
+      );
+      const indexes = mostValuedPackagedItems.map((itemIndexes) => {
+        return itemIndexes.join(',') || '-';
+      });
 
-    let itemIndexesString = '';
-    indexes.map((index) => (itemIndexesString += `${index}\n`));
+      let itemIndexesString = '';
+      indexes.map((index) => (itemIndexesString += `${index}\n`));
 
-    return itemIndexesString;
+      return itemIndexesString;
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : 'Packer Error');
+    }
   }
 }
