@@ -6,16 +6,17 @@ export class KnapsackDynamic implements Strategy {
   private matrix: Matrix = [];
   private items: Item[] = [];
 
-  public execute(items: Item[], capacity: number): Item[] {
+  public execute(items: Item[], weightLimit: number): Item[] {
+    const weightLimitInGrams = this._convertToGrams(weightLimit);
     this.items = items;
     for (let itemRow = 0; itemRow < items.length; itemRow++) {
       const row = [];
       for (
-        let capacityColumn = 1;
-        capacityColumn <= capacity;
-        capacityColumn++
+        let weightColumn = 1;
+        weightColumn <= weightLimitInGrams;
+        weightColumn++
       ) {
-        const solution = this.getValuedItems(itemRow, capacityColumn);
+        const solution = this.getValuedItems(itemRow, weightColumn);
         row.push(solution);
       }
       this.matrix.push(row);
@@ -33,16 +34,9 @@ export class KnapsackDynamic implements Strategy {
     const col = weightColumn - 1;
     const row = itemRow - 1;
     const item = this.items[itemRow];
+    const weightInGrams = this._convertToGrams(item.weight);
     const NoValuedItems = { maxValue: 0, itemsCombo: [] };
-    const remainderWeight = weightColumn - item.weight;
-
-    let itemsPreviousRowColumn: Element;
-
-    if (itemRow > 0 && this.matrix[row][col]) {
-      itemsPreviousRowColumn = this.matrix[row][col];
-    } else {
-      itemsPreviousRowColumn = NoValuedItems;
-    }
+    const remainderWeight = weightColumn - weightInGrams;
 
     let itemsPreviousRowRemainder: Element;
 
@@ -52,6 +46,14 @@ export class KnapsackDynamic implements Strategy {
       itemsPreviousRowRemainder = NoValuedItems;
     }
 
+    let itemsPreviousRowColumn: Element;
+
+    if (itemRow > 0 && this.matrix[row][col]) {
+      itemsPreviousRowColumn = this.matrix[row][col];
+    } else {
+      itemsPreviousRowColumn = NoValuedItems;
+    }
+
     if (remainderWeight < 0) {
       return itemsPreviousRowColumn;
     }
@@ -59,13 +61,17 @@ export class KnapsackDynamic implements Strategy {
     const previousRowItemsValue = itemsPreviousRowColumn.maxValue;
     const prevRowItemsRemainderValue = itemsPreviousRowRemainder.maxValue;
 
-    const newValue = prevRowItemsRemainderValue + item.value;
-    if (newValue > previousRowItemsValue) {
+    const maxValue = prevRowItemsRemainderValue + item.value;
+    if (maxValue >= previousRowItemsValue) {
       const itemsCombo = itemsPreviousRowRemainder.itemsCombo.slice();
       itemsCombo.push(item);
-      return { maxValue: newValue, itemsCombo };
+      return { maxValue, itemsCombo };
     } else {
       return itemsPreviousRowColumn;
     }
+  }
+
+  private _convertToGrams(weight: number): number {
+    return Math.trunc(weight * 1000);
   }
 }
